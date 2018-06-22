@@ -1,45 +1,54 @@
+
 #include<stdio.h>
-//#include<string.h>
 #include<iostream>
 #include<conio.h>
 #include<stdlib.h>
+using namespace std;
 struct zggz{
 	char num[10];
 	char name[20];
-	char wage_gw;
+	float wage_gw;
 	float wage_xj;
 	float wage_zw;
 	float wage_jx;
 	float wage_yf;
 	float taxfee;
 	float wage_sf;
-}zg[999],newzg;
+}zgs[999],*zg;
 void read()    //读取职工工资数据
 {
 	 FILE *fp;
-     char ch;
+     zg=zgs;
 	 int n=0;
-     if((fp=fopen("gx.dat","rb"))==NULL)
+     if((fp=fopen("gx.dat","rb+"))==NULL)
      {
           printf("不能打开文件\n");
 		  getch();
           exit(-1);
      }
-for(int i=0; i<5; i++)  //循环读取
+	 for(int i=0; i<999; i++,zg++)  //判断几条数据
 	 {  
-	   fprintf(fp,"%c %c %f %f %f %f %f %f %f\n",zg[i].num,zg[i].name,zg[i].wage_gw,zg[i].wage_xj,zg[i].wage_zw,zg[i].wage_jx,zg[i].wage_yf,zg[i].taxfee,zg[i].wage_sf);
-       rewind(fp);
-	   fscanf(fp,"%c %c %f %f %f %f %f %f %f\n",zg[i].num,zg[i].name,&(zg[i].wage_gw),&(zg[i].wage_xj),&(zg[i].wage_zw),&(zg[i].wage_jx),&(zg[i].wage_yf),&(zg[i].taxfee),&(zg[i].wage_sf)); 
-++n;
-
+		 fscanf(fp,"%s %s %f %f %f %f %f %f %f\n",zg->num,zg->name,&(zg->wage_gw),&(zg->wage_xj),&(zg->wage_zw),&(zg->wage_jx),&(zg->wage_yf),&(zg->taxfee),&(zg->wage_sf));
+		 printf("%s %s %f %f %f %f %f %f %f\n",zg->num,zg->name,zg->wage_gw,zg->wage_xj,zg->wage_zw,zg->wage_jx,zg->wage_yf,zg->taxfee,zg->wage_sf);
+		 n++;
+		 if(feof(fp))
+		 {
+		   break;
+		 }
+	 }
+	 fclose(fp);
+	 printf("共有数据数为：%d\n",n);
 }
-ch=fgetc(fp);
-while(ch!=EOF)
+void write()
 {
-	putchar(ch);
-	ch=fgetc(fp);
-}
-  fclose(fp);
+	FILE *fb; 
+ if((fb=fopen("gz.dat","wt+"))==NULL) 
+ {
+	 printf("不能打开 \n"); 
+ exit(-1); 
+ } 
+
+ fclose(fb); 
 }
 int main()
 {
